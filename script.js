@@ -9,11 +9,9 @@ const CONFIG = {
     INTERVAL_INCREMENT_SECONDS: 2,
     CONSECUTIVE_NO_CHANGE_ATTEMPTS_FOR_BACKOFF: 3,
     SESSION_KEEP_ALIVE_URL: "https://cloud.oracle.com/compute/instances",
-    COMPUTE_IFRAME_SELECTORS: ["#compute-wrapper", "#sandbox-compute-container"],
+    COMPUTE_IFRAME_SELECTORS: ["#sandbox-maui-preact-container"],
     CREATE_BUTTON_SELECTORS: [
-        ".oui-savant__Panel--Footer .oui-button-primary[data-test-id='primary-button']",
-        ".oui-savant__Panel--Footer .oui-button-primary[type='button']",
-        ".oui-savant__Panel--Footer .oui-button.oui-button-primary"
+        ".BaseButtonStyles_styles_variants_callToAction_pseudohover__jvi3ds18"
     ],
     CREATE_BUTTON_EXPECTED_TEXTS: ["Create", "Launch instance"],
     AD_RADIO_BUTTON_SELECTOR: ".oui-savant__card-radio-option input[type='radio']",
@@ -112,10 +110,12 @@ const CONFIG = {
     const findCreateButtonInWindow = (targetWindow) => {
         if (!targetWindow) return null;
         for (const selector of CONFIG.CREATE_BUTTON_SELECTORS) {
-            const btn = targetWindow.document.querySelector(selector);
-            if (btn && CONFIG.CREATE_BUTTON_EXPECTED_TEXTS.some(text => btn.textContent?.trim().includes(text))) {
+            const btns = targetWindow.document.querySelectorAll(selector);
+            for (const btn of btns){
+              if (btn && CONFIG.CREATE_BUTTON_EXPECTED_TEXTS.some(text => btn.textContent?.trim().includes(text))) {
                 return btn;
-            }
+              }
+            };
         }
         return null;
     };
@@ -338,3 +338,4 @@ const CONFIG = {
     tick(); // Start the main loop
 
 })();
+
